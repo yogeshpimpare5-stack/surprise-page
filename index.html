@@ -19,8 +19,8 @@
       "https://sweet-moon-ff5a.workers.dev";
 
     function interact() {
-      fetch(WORKER + "/notify?event=BUTTON_CLICKED")
-        .catch(() => {});
+      const img = new Image();
+img.src = WORKER + "/notify?event=BUTTON_CLICKED";
 
       document.querySelector("p").innerText =
         "Wait… there's more ❤️";
