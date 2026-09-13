@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Just a little surprise ❤️</title>
+</head>
+<body style="text-align:center;padding-top:100px;font-family:Arial">
+
+  <h1>Hey 👋</h1>
+  <p>I have something for you.</p>
+
+  <button onclick="interact()"
+    style="padding:15px 25px;font-size:18px;">
+    Open ❤️
+  </button>
+
+  <script>
+    const WORKER =
+      "https://sweet-moon-ff5a.workers.dev";
+
+    function interact() {
+      fetch(WORKER + "/notify?event=BUTTON_CLICKED")
+        .catch(() => {});
+
+      document.querySelector("p").innerText =
+        "Wait… there's more ❤️";
+    }
+  </script>
+
+</body>
+</html>
