@@ -1,30 +1,185 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Just a little surprise ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Just a Little Surprise ❤️</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #160b20, #3b123c, #120914);
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+
+    .card {
+      width: 90%;
+      max-width: 450px;
+      padding: 40px 25px;
+      border-radius: 25px;
+      background: rgba(255,255,255,0.08);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      backdrop-filter: blur(12px);
+    }
+
+    .heart {
+      font-size: 65px;
+      animation: beat 1.2s infinite;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin: 15px 0;
+    }
+
+    p {
+      color: #ddd;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 16px 30px;
+      border: none;
+      border-radius: 50px;
+      background: white;
+      color: #35152f;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @keyframes beat {
+      0%, 100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.15);
+      }
+    }
+  </style>
 </head>
-<body style="text-align:center;padding-top:100px;font-family:Arial">
 
-  <h1>Hey 👋</h1>
-  <p>I have something for you.</p>
+<body>
 
-  <button onclick="interact()"
-    style="padding:15px 25px;font-size:18px;">
-    Open ❤️
-  </button>
+  <div class="card">
+
+    <!-- First screen -->
+    <div id="screen1">
+
+      <div class="heart">💌</div>
+
+      <h1>Hey… wait 👀</h1>
+
+      <p>
+        I made something for you.
+        <br>
+        Just give me one little tap.
+      </p>
+
+      <button onclick="interact()">
+        Open ❤️
+      </button>
+
+    </div>
+
+
+    <!-- Second screen -->
+    <div id="screen2" class="hidden">
+
+      <div class="heart">✨</div>
+
+      <h1>Got you 😌</h1>
+
+      <p>
+        You actually opened it...
+        <br><br>
+        Maybe there's something more waiting here.
+      </p>
+
+      <button onclick="secondInteraction()">
+        Continue 💗
+      </button>
+
+    </div>
+
+
+    <!-- Final screen -->
+    <div id="screen3" class="hidden">
+
+      <div class="heart">❤️</div>
+
+      <h1>One last thing</h1>
+
+      <p>
+        Thank you for staying till the end.
+        <br><br>
+        I hope this made you smile.
+      </p>
+
+    </div>
+
+  </div>
+
 
   <script>
+
+    /* YOUR CLOUDFLARE WORKER */
     const WORKER =
-  "https://sweet-moon-ff5a.yogeshpimpare5.workers.dev";
+      "https://sweet-moon-ff5a.yogeshpimpare5.workers.dev";
 
+
+    /* FIRST INTERACTION */
     function interact() {
-      const img = new Image();
-img.src = WORKER + "/notify?event=BUTTON_CLICKED";
 
-      document.querySelector("p").innerText =
-        "Wait… there's more ❤️";
+      fetch(
+        WORKER + "/notify?event=OPEN_BUTTON_CLICKED",
+        {
+          method: "GET",
+          mode: "no-cors",
+          cache: "no-store"
+        }
+      );
+
+      document.getElementById("screen1").classList.add("hidden");
+
+      document.getElementById("screen2").classList.remove("hidden");
     }
+
+
+    /* SECOND INTERACTION */
+    function secondInteraction() {
+
+      fetch(
+        WORKER + "/notify?event=CONTINUE_BUTTON_CLICKED",
+        {
+          method: "GET",
+          mode: "no-cors",
+          cache: "no-store"
+        }
+      );
+
+      document.getElementById("screen2").classList.add("hidden");
+
+      document.getElementById("screen3").classList.remove("hidden");
+    }
+
   </script>
 
 </body>
